@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TrackMySpend</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+</head>
+<body>
+  <header>
+    <h1>TrackMySpend</h1>
+    <nav class="nav-links">
+      {% if session.get('email') %}
+        <span style="color:#b5f4cc; font-weight:600; margin-right:1rem;">Welcome, {{ session.get('name') }}</span>
+        <form action="{{ url_for('logout') }}" method="get" style="display:inline;">
+          <button title="Logout">Logout</button>
+        </form>
+      {% else %}
+        <a href="{{ url_for('login') }}"><button title="Login">Login</button></a>
+        <a href="{{ url_for('register') }}"><button title="Register" style="margin-left:0.5rem;">Register</button></a>
+      {% endif %}
+    </nav>
+    <div id="date-time"></div>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="{{ 'success-message' if category == 'success' else 'error-message' }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <p>© 2025 TrackMySpend. (Dharaneesh)</p>
+  </footer>
+</body>
+</html>

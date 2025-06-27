@@ -1,0 +1,31 @@
+{
+  "transactions": [
+    {
+      "amount": 100.0,
+      "category": "Entertainment",
+      "date": "2025-06-12",
+      "description": null,
+      "split_with": null
+    },
+    {
+      "amount": 1999.0,
+      "category": "Entertainment",
+      "date": "2025-06-12",
+      "description": "222",
+      "split_with": "user@example.com"
+    },
+    {
+      "amount": 200.0,
+      "category": "Groceries",
+      "date": "2025-06-12",
+      "description": "ewhj ekd",
+      "split_with": null
+    }
+  ],
+  "budgets": [
+    {
+      "category": "Entertainment",
+      "limit_amount": 2000.0
+    }
+  ]
+}

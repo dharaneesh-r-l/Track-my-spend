@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Welcome, {{ name|e }}!</h2>
+
+<div class="flex-row">
+  <section class="card" aria-label="Add Transaction">
+    <h3>Add New Transaction</h3>
+    <form action="{{ url_for('dashboard') }}" method="post" novalidate>
+      <input type="hidden" name="add_transaction" value="1" />
+      <div class="form-group">
+        <label for="amount">Amount (₹)</label>
+        <input type="number" step="0.01" min="0.01" id="amount" name="amount" required />
+      </div>
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select id="category" name="category" required>
+          <option value="" selected disabled>Choose category</option>
+          <option>Groceries</option>
+          <option>Entertainment</option>
+          <option>Utilities</option>
+          <option>Transport</option>
+          <option>Health</option>
+          <option>Education</option>
+          <option>Others</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input id="date" name="date" type="date" value="{{ datetime.utcnow().date().isoformat() }}" required />
+      </div>
+      <div class="form-group">
+        <label for="description">Description (optional)</label>
+        <input id="description" name="description" type="text" maxlength="255" />
+      </div>
+      <div class="form-group">
+        <label for="split_with">Split with (comma separated emails, optional)</label>
+        <input id="split_with" name="split_with" type="text" placeholder="someone@example.com, another@example.com" />
+      </div>
+      <button type="submit">Add Transaction</button>
+    </form>
+  </section>
+
+  <section class="card" aria-label="Manage Budgets">
+    <h3>Manage Budgets</h3>
+    <form action="{{ url_for('dashboard') }}" method="post" novalidate>
+      <input type="hidden" name="add_budget" value="1" />
+      <div class="form-group">
+        <label for="budget_category">Category</label>
+        <select id="budget_category" name="budget_category" required>
+          <option value="" selected disabled>Choose category</option>
+          <option>Groceries</option>
+          <option>Entertainment</option>
+          <option>Utilities</option>
+          <option>Transport</option>
+          <option>Health</option>
+          <option>Education</option>
+          <option>Others</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="limit_amount">Limit Amount (₹)</label>
+        <input type="number" step="0.01" min="0.01" id="limit_amount" name="limit_amount" required />
+      </div>
+      <button type="submit">Set/Update Budget</button>
+    </form>
+  </section>
+</div>
+
+<section class="card" aria-label="Budget Overview">
+  <h3>Budget Overview</h3>
+  {% if budgets %}
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Budget</th>
+        <th>Spent</th>
+        <th>Remaining</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for budget in budgets %}
+      {% set spent = expenses_by_category.get(budget.category, 0) %}
+      {% set remaining = budget.limit_amount - spent %}
+      {% set remaining_color = 'salmon' if remaining < 0 else '#86efac' %}
+      <tr>
+        <td>{{ budget.category|e }}</td>
+        <td>{{ format_inr(budget.limit_amount) }}</td>
+        <td>{{ format_inr(spent) }}</td>
+        <td style="color: {{ remaining_color }};">{{ format_inr(remaining) }}</td>
+        <td>
+          <form action="{{ url_for('delete_budget', category=budget.category) }}" method="post" onsubmit="return confirm('Delete budget for category {{ budget.category }}?');" style="display:inline;">
+            <button type="submit" class="small-button" title="Delete Budget">
+              <span class="material-icons" style="font-size:16px;">delete</span>
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No budgets set yet.</p>
+  {% endif %}
+</section>
+
+<section class="card" aria-label="Recent Transactions">
+  <h3>Recent Transactions</h3>
+  {% if transactions %}
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Split With</th>
+        <th>Amount</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in transactions %}
+      <tr>
+        <td>{{ t.date|e }}</td>
+        <td>{{ t.category|e }}</td>
+        <td>{{ t.description|default('-')|e }}</td>
+        <td>{{ t.split_with|default('-')|e }}</td>
+        <td>{{ format_inr(t.amount) }}</td>
+        <td>
+          <form action="{{ url_for('delete_transaction', index=loop.index0) }}" method="post" onsubmit="return confirm('Delete this transaction?');" style="display:inline;">
+            <button type="submit" class="small-button" title="Delete Transaction">
+              <span class="material-icons" style="font-size:16px;">delete</span>
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No transactions recorded yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

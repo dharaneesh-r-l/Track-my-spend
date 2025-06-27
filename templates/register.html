@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<section aria-label="Register">
+  <h2>Register</h2>
+  <form action="{{ url_for('register') }}" method="post" novalidate>
+    <div class="form-group">
+      <label for="registerName">Full Name</label>
+      <input id="registerName" name="name" type="text" required />
+    </div>
+    <div class="form-group">
+      <label for="registerEmail">Email address</label>
+      <input id="registerEmail" name="email" type="email" required autocomplete="email" />
+    </div>
+    <div class="form-group">
+      <label for="registerPassword">Password</label>
+      <input id="registerPassword" name="password" type="password" required minlength="8" autocomplete="new-password" />
+    </div>
+    <div class="form-group">
+      <label for="registerConfirmPassword">Confirm Password</label>
+      <input id="registerConfirmPassword" name="confirm_password" type="password" required minlength="8" />
+    </div>
+    <button type="submit">Register</button>
+  </form>
+  <p style="margin-top: 1rem">Already have an account? <a href="{{ url_for('login') }}">Login here</a>.</p>
+</section>
+{% endblock %}
