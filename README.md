@@ -129,7 +129,7 @@ http://127.0.0.1:5000
 
 # Screenshots
 
-```md
+
 ## Registration Page
 ![Registration](Screenshots/register.png)
 
@@ -137,7 +137,9 @@ http://127.0.0.1:5000
 ![Login](Screenshots/login.png)
 
 ## Expense Dashboard
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](Screenshots/dashboard.png) 
+
+
 ![Dashboard2](Screenshots/dashboard2.png)
 ```
 
