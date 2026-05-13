@@ -132,11 +132,15 @@ http://127.0.0.1:5000
 Example:
 
 ```md
-## Home Page
-![Home Page](screenshots/home.png)
+## Registration Page
+![REgistration](Screenshots/register.png)
+
+## Login Page
+![Login](Screenshots/login.png)
 
 ## Expense Dashboard
 ![Dashboard](screenshots/dashboard.png)
+(Screenshots/dashboard2.png)
 ```
 
 ---
