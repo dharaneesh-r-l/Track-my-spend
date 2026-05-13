@@ -129,18 +129,16 @@ http://127.0.0.1:5000
 
 # Screenshots
 
-Example:
-
 ```md
 ## Registration Page
-![REgistration](Screenshots/register.png)
+![Registration](Screenshots/register.png)
 
 ## Login Page
 ![Login](Screenshots/login.png)
 
 ## Expense Dashboard
 ![Dashboard](screenshots/dashboard.png)
-(Screenshots/dashboard2.png)
+![Dashboard2](Screenshots/dashboard2.png)
 ```
 
 ---
